@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="542.0" prefWidth="415.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllerResultados">
+   <children>
+      <VBox layoutX="8.0" layoutY="27.0" prefHeight="500.0" prefWidth="400.0">
+         <children>
+            <Label prefHeight="70.0" prefWidth="397.0" text="                                                    RESULTADOS" />
+            <ListView prefHeight="328.0" prefWidth="400.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" text="INICIO">
+                     <HBox.margin>
+                        <Insets left="50.0" top="40.0" />
+                     </HBox.margin></Button>
+                  <Separator prefHeight="29.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" text="IMPRIMIR">
+                     <HBox.margin>
+                        <Insets top="40.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+         </children></VBox>
+   </children>
+</AnchorPane>
