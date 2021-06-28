@@ -17,7 +17,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 //        test_libreri test=new test_libreri();
 //        test.cargarInstancias();
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("formulario.fxml"));
         primaryStage.setTitle("Inicio");
         primaryStage.setScene(new Scene(root, 400, 500));
         primaryStage.show();
