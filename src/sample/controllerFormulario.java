@@ -26,6 +26,7 @@ public class controllerFormulario implements Initializable {
     @FXML
     JFXTextField TFnombre, TFedad;
     @FXML
+    StackPane stackPane;
     Instances data;
     WekaWrapper objObe;
 
@@ -62,11 +63,11 @@ public class controllerFormulario implements Initializable {
                 e.printStackTrace();
             }
             diagnostico = verificaResultado(resultado);
-            /*JFXDialogLayout graphInfo=new JFXDialogLayout();
+            JFXDialogLayout graphInfo=new JFXDialogLayout();
             graphInfo.setHeading(new Text("El diagnostico es..."));
             graphInfo.setBody(new Text(diagnostico));
             JFXDialog dialog=new JFXDialog(stackPane,graphInfo, JFXDialog.DialogTransition.LEFT);
-            dialog.show();*/
+            dialog.show();
         }
     };
 
