@@ -34,7 +34,7 @@ public class controllerFormulario implements Initializable {
         BTNcalcular.setOnAction(calcular);
 
         CBbirads.getItems().addAll(1,2,3,4,5);
-        CBdensidad.getItems().addAll("Redonda","ovalada","Lobular","Irregular");
+        CBforma.getItems().addAll("Redonda","ovalada","Lobular","Irregular");
         CBmargen.getItems().addAll("Circumscribed","microlobulated","Obscured","Ill-defined","Spiculated");
         CBdensidad.getItems().addAll("Alta","Iso","Baja","Contiene grasa");
 

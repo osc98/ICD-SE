@@ -28,6 +28,6 @@
          </font>
       </Text>
       <Label layoutX="92.0" layoutY="104.0" text="EDAD" />
-      <JFXTextField id="TFedad" layoutX="352.0" layoutY="100.0" />
+      <JFXTextField fx:id="TFedad" layoutX="352.0" layoutY="100.0" />
    </children>
 </AnchorPane>
