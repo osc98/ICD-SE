@@ -1,2 +1,2 @@
 # ICD-SE
-Ciendia de Datos
+Ciencia de Datos
