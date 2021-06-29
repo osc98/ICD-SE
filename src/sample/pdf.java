@@ -6,29 +6,28 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
         try (PDDocument document = new PDDocument()) {
-            PDPage page = new PDPage(PDRectangle.A6);
+            InputStream in = new FileInputStream(someImage);
+            BufferedImage bimg = ImageIO.read(in);
+            float width = bimg.getWidth();
+            float height = bimg.getHeight();
+            PDPage page = new PDPage(new PDRectangle(width, height));
             document.addPage(page);
-
+            PDXObjectImage img = new PDJpeg(document, new FileInputStream(someImage));
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-            // Text
-            contentStream.beginText();
-            contentStream.setFont(PDType1Font.TIMES_BOLD, 32);
-            contentStream.newLineAtOffset( 20, page.getMediaBox().getHeight() - 52);
-            contentStream.showText("Hello World!");
-            contentStream.endText();
-
-            // Image
-            PDImageXObject image = PDImageXObject.createFromByteArray(document, Main.class.getResourceAsStream("C:/Users/oscar/IdeaProjects/Proyecto/src/sample/mama.png").readAllBytes(), "Java Logo");
-            contentStream.drawImage(pdImage, 20, 20);
-
+            contentStream.drawImage(img, 0, 0);
             contentStream.close();
+            in.close();
 
-            document.save("document.pdf");
+            document.save("test.pdf");
+            document.close();
         }
     }
 }
