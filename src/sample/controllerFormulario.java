@@ -19,9 +19,13 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class controllerFormulario implements Initializable {
+    @FXML
     JFXButton BTNcalcular, BTNcancelar;
+    @FXML
     JFXComboBox CBbirads, CBforma, CBmargen, CBdensidad;
+    @FXML
     JFXTextField TFnombre, TFedad;
+    @FXML
     Instances data;
     WekaWrapper objObe;
 
@@ -44,7 +48,7 @@ public class controllerFormulario implements Initializable {
     }
 
 
-    EventHandler<ActionEvent> calcular = new EventHandler<ActionEvent>() {
+    javafx.event.EventHandler<ActionEvent> calcular = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
             int resultado = -1;
