@@ -24,9 +24,7 @@ public class controllerFormulario implements Initializable {
     JFXTextField TFnombre, TFedad;
     Instances data;
     WekaWrapper objObe;
-    @FXML
-    StackPane stackPane;
-    AnchorPane anchorPane;
+
 
     public void initialize (URL location, ResourceBundle resources){
         BTNcalcular.setOnAction(calcular);
