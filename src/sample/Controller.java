@@ -41,7 +41,7 @@ public class Controller implements Initializable {
                 controllerForm controllerForm= new controllerForm();
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
-                stage.setTitle("Puto");
+                stage.setTitle("formulario");
                 Stage cerrar = ((Stage)(((Button)event.getSource()).getScene().getWindow()));
                 cerrar.close();
                 stage.setScene(scene);

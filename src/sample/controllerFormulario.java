@@ -1,13 +1,16 @@
 package sample;
 
 import com.jfoenix.controls.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -20,25 +23,36 @@ import java.util.Scanner;
 
 public class controllerFormulario implements Initializable {
     @FXML
-    JFXButton BTNcalcular, BTNcancelar;
+    JFXButton btnCalcular, btnCancelar, btnImprimir;
     @FXML
-    JFXComboBox CBbirads, CBforma, CBmargen, CBdensidad;
+    JFXComboBox cbBirads, cbForma, cbMargen, cbDensidad;
     @FXML
-    JFXTextField TFnombre, TFedad;
+    JFXTextField tfNombre, TFedad;
     @FXML
     StackPane stackPane;
     Instances data;
     WekaWrapper objObe;
-
+    boolean bandera=false;
 
     public void initialize (URL location, ResourceBundle resources){
-        BTNcalcular.setOnAction(calcular);
-
-        CBbirads.getItems().addAll(1,2,3,4,5);
-        CBforma.getItems().addAll("Redonda","ovalada","Lobular","Irregular");
-        CBmargen.getItems().addAll("Circumscribed","microlobulated","Obscured","Ill-defined","Spiculated");
-        CBdensidad.getItems().addAll("Alta","Iso","Baja","Contiene grasa");
-
+        bandera=false;
+        btnCancelar.setVisible(false);
+        btnCalcular.setOnAction(calcular);
+        btnImprimir.setOnAction(crearPdf);
+        btnCancelar.setOnAction(cancelar);
+        cbBirads.getItems().addAll(1,2,3,4,5);
+        cbForma.getItems().addAll("Redonda","ovalada","Lobular","Irregular");
+        cbMargen.getItems().addAll("Circumscribed","microlobulated","Obscured","Ill-defined","Spiculated");
+        cbDensidad.getItems().addAll("Alta","Iso","Baja","Contiene grasa");
+        TFedad.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,//validar numeros only
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    TFedad.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
         try {
             cargarInstancias();
             System.out.println("Instancias cargadas correctamente......");
@@ -47,8 +61,31 @@ public class controllerFormulario implements Initializable {
             e.printStackTrace();
         }
     }
+    javafx.event.EventHandler<ActionEvent> crearPdf= new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            Stage stage = (Stage) btnImprimir.getScene().getWindow();
+            if (bandera == true){
 
-
+            controllerForm cf = new controllerForm();
+            pdf codf =new pdf();
+            codf.impresion(stage,"oscar",1,2,3,4,5);
+        }
+        }
+    };
+    javafx.event.EventHandler<ActionEvent> cancelar=new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            cbBirads.setDisable(false);
+            cbForma.setDisable(false);
+            cbDensidad.setDisable(false);
+            cbMargen.setDisable(false);
+            tfNombre.setDisable(false);
+            TFedad.setDisable(false);
+            btnCancelar.setVisible(false);
+            btnImprimir.setVisible(false);
+        }
+    };
     javafx.event.EventHandler<ActionEvent> calcular = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -56,6 +93,12 @@ public class controllerFormulario implements Initializable {
             String diagnostico = "";
             Persona p = obtenerDatos();
             try {
+                cbBirads.setDisable(true);
+                cbForma.setDisable(true);
+                cbDensidad.setDisable(true);
+                cbMargen.setDisable(true);
+                tfNombre.setDisable(true);
+                TFedad.setDisable(true);
                 resultado = creaInstancia(p);
                 System.out.println("Instancia nueva creada y evaluada...");
             } catch (Exception e) {
@@ -63,6 +106,11 @@ public class controllerFormulario implements Initializable {
                 e.printStackTrace();
             }
             diagnostico = verificaResultado(resultado);
+            if (diagnostico!=null){
+                bandera=true;
+                btnCancelar.setVisible(true);
+                btnImprimir.setVisible(true);
+            }
             JFXDialogLayout graphInfo=new JFXDialogLayout();
             graphInfo.setHeading(new Text("El diagnostico es..."));
             graphInfo.setBody(new Text(diagnostico));
@@ -105,14 +153,14 @@ public class controllerFormulario implements Initializable {
         else densidad = 4;
 
 
-        Instance instance = new DenseInstance(15);
+        Instance instance = new DenseInstance(6);
         instance.setDataset(data);
         instance.setValue(0, p.getBirads()); //Genero
         instance.setValue(1, p.getEdad());//Edad
-        instance.setValue(2, forma);//Familiar con sobrepeso
-        instance.setValue(3, margen);//Comidas con altas cantidad de calorias
-        instance.setValue(4, densidad);//Consumo de vegetales
-        instance.setValue(5,"malignant");
+        instance.setValue(2, forma);//Forma
+        instance.setValue(3, margen);//margen
+        instance.setValue(4, densidad);//Densidad
+        instance.setValue(5,"malignant");//Valor string
         double result = objObe.classifyInstance(instance);
         int resultFinal = (int)result;
         return resultFinal;
@@ -132,21 +180,25 @@ public class controllerFormulario implements Initializable {
     }
     public Persona obtenerDatos(){
         Persona persona = new Persona();
-        persona.setNombre(TFnombre.getText());
+        persona.setNombre(tfNombre.getText());
         persona.setEdad(Integer.parseInt(TFedad.getText()));
-        persona.setBirads(Integer.parseInt(CBbirads.getSelectionModel().getSelectedItem().toString()));
-        persona.setMargen(CBmargen.getSelectionModel().getSelectedItem().toString());
-        persona.setForma(CBforma.getSelectionModel().getSelectedItem().toString());
-        persona.setDensidad(CBdensidad.getSelectionModel().getSelectedItem().toString());
+        persona.setBirads(Integer.parseInt(cbBirads.getSelectionModel().getSelectedItem().toString()));
+        persona.setMargen(cbMargen.getSelectionModel().getSelectedItem().toString());
+        persona.setForma(cbForma.getSelectionModel().getSelectedItem().toString());
+        persona.setDensidad(cbDensidad.getSelectionModel().getSelectedItem().toString());
         return persona;
     }
 
     public String verificaResultado(int resultFinal){
         String diagnostico = "";
-        if (resultFinal==0)
-        diagnostico += "Maligno, recomendamos realizar una biopsia";
-        else
-        diagnostico += "Benigno, recomendamos no realizar una biopsia";
+        if (resultFinal==0) {
+            diagnostico += "Maligno, recomendamos realizar una biopsia";
+            bandera=true;
+        }
+        else {
+            diagnostico += "Benigno, recomendamos no realizar una biopsia";
+            bandera=true;
+        }
 
         System.out.println("Su diagnóstico es: " + diagnostico);
         return diagnostico;

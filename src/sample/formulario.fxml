@@ -8,21 +8,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllerFormulario">
+<StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllerFormulario">
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"  xmlns:fx="http://javafx.com/fxml/1" >
    <children>
-      <JFXButton fx:id="BTNcalcular" layoutX="128.0" layoutY="331.0" text="CALCULAR" />
-      <JFXComboBox fx:id="CBbirads" layoutX="352.0" layoutY="169.0" />
-      <JFXComboBox fx:id="CBforma" layoutX="352.0" layoutY="200.0" />
-      <JFXComboBox fx:id="CBmargen" layoutX="352.0" layoutY="232.0" />
-      <JFXComboBox fx:id="CBdensidad" layoutX="352.0" layoutY="267.0" />
-      <JFXTextField fx:id="TFnombre" layoutX="352.0" layoutY="70.0" />
+      <JFXButton fx:id="btnCalcular" layoutX="128.0" layoutY="331.0" text="CALCULAR" />
+      <JFXButton fx:id="btnImprimir" visible="false" layoutX="128.0" layoutY="371.0" text="Imprimir PDF" />
+      <JFXComboBox fx:id="cbBirads" layoutX="352.0" layoutY="169.0" />
+      <JFXComboBox fx:id="cbForma" layoutX="352.0" layoutY="200.0" />
+      <JFXComboBox fx:id="cbMargen" layoutX="352.0" layoutY="232.0" />
+      <JFXComboBox fx:id="cbDensidad" layoutX="352.0" layoutY="267.0" />
+      <JFXTextField fx:id="tfNombre" layoutX="352.0" layoutY="70.0" />
       <Label layoutX="92.0" layoutY="82.0" text="NOMBRE" />
       <Label layoutX="137.0" layoutY="173.0" text="BI-RADS" />
       <Label layoutX="139.0" layoutY="204.0" text="FORMA" />
       <Label layoutX="135.0" layoutY="236.0" text="MARGEN" />
       <Label layoutX="137.0" layoutY="271.0" text="DENSIDAD" />
-      <JFXButton fx:id="BTNcancelar" layoutX="343.0" layoutY="331.0" text="CANCELAR" />
+      <JFXButton fx:id="btnCancelar" layoutX="343.0" layoutY="331.0" text="CANCELAR" />
       <Text layoutX="233.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FORMULARIO" wrappingWidth="135.0">
          <font>
             <Font size="18.0" />
